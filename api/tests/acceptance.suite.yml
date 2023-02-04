@@ -1,0 +1,8 @@
+class_name: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        url: http://api.toir.local.net
+        browser: chrome
+    - Yii2:
+        part: init

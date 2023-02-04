@@ -49,10 +49,10 @@ class Book extends RootModel
     public function rules()
     {
         return [
-            [['uuid', 'title', 'author', 'description', 'categoryUuid'], 'required'],
+            [['uuid', 'title', 'author', 'description', 'categoryUuid', 'link'], 'required'],
             [['createdAt', 'changedAt'], 'safe'],
             [['uuid', 'categoryUuid', 'image'], 'string', 'max' => 50],
-            [['title', 'author', 'imageUrl'], 'string', 'max' => 200],
+            [['title', 'author', 'imageUrl', 'amazonImage', 'link'], 'string', 'max' => 500],
             [['uuid', 'title'], 'filter', 'filter' => function ($param) {
                 return htmlspecialchars($param, ENT_QUOTES | ENT_HTML401);
             }
@@ -69,7 +69,7 @@ class Book extends RootModel
             'category' => function ($model) {
                 return $model->category;
             },
-            'title', 'author', 'imageUrl', 'description', 'categoryUuid'
+            'title', 'author', 'imageUrl', 'description', 'categoryUuid', 'link', 'imageUrl', 'amazonImage'
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace api\controllers;
 
-use common\helpers\CorsCustom;
+use api\models\CorsCustom;
 use common\models\Category;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;

@@ -2,11 +2,10 @@
 
 namespace api\controllers;
 
-use api\models\CorsCustom;
 use common\models\Book;
 use Yii;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\ContentNegotiator;
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\web\UnauthorizedHttpException;
@@ -15,43 +14,28 @@ class BookController extends ActiveController
 {
     public $modelClass = 'common\models\Book';
 
+
     /**
      * @return array
      */
     public function behaviors()
     {
+        $_verbs = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'];
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator'] = [
-            'class' => ContentNegotiator::className(),
+            'class' => ContentNegotiator::class,
             'formats' => [
-                'application/json' => Response::FORMAT_JSON,
-            ],
-
+                'application/json' => Response::FORMAT_JSON
+            ]
         ];
-        // remove authentication filter
-        $auth = $behaviors['authenticator'];
-        unset($behaviors['authenticator']);
-        // add CORS filter
         $behaviors['corsFilter'] = [
-            'class' => CorsCustom::className(),
-        ];
-        // re-add authentication filter
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'except' => ['login']
-        ];
-
-        /*        $behaviors['corsFilter'] = [
-                    'class' => Cors::className(),
-                    'cors' => [
-                        'Origin' => ['*'],
-                        'Access-Control-Request-Method' => $_verbs,
-                        'Access-Control-Allow-Headers' => ['content-type'],
-                        'Access-Control-Request-Headers' => ['*'],
-                    ]];*/
+            'class' => Cors::className(),
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Request-Method' => $_verbs,
+                'Access-Control-Allow-Headers' => ['content-type'],
+                'Access-Control-Request-Headers' => ['*'],
+            ]];
         return $behaviors;
     }
 

@@ -13,25 +13,19 @@ use yii\db\Expression;
  * @property integer $_id
  * @property string $uuid
  * @property string $title
- * @property string $link
- * @property string $authorUuid
- * @property Author $author
- * @property string $authorName
  * @property string $description
- * @property string $categoryUuid
- * @property Category $category
  * @property string $imageUrl
  * @property string $createdAt
  * @property string $changedAt
  */
-class Book extends RootModel
+class Author extends RootModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'book';
+        return 'author';
     }
 
     public function behaviors()
@@ -52,10 +46,10 @@ class Book extends RootModel
     public function rules()
     {
         return [
-            [['uuid', 'title', 'author', 'description', 'categoryUuid', 'link'], 'required'],
+            [['uuid', 'title', 'description'], 'required'],
             [['createdAt', 'changedAt'], 'safe'],
-            [['uuid', 'categoryUuid', 'imageUrl'], 'string', 'max' => 150],
-            [['title', 'author', 'imageUrl', 'amazonImage', 'link'], 'string', 'max' => 500],
+            [['uuid', 'imageUrl'], 'string', 'max' => 150],
+            [['title', 'description'], 'string', 'max' => 500],
             [['uuid', 'title'], 'filter', 'filter' => function ($param) {
                 return htmlspecialchars($param, ENT_QUOTES | ENT_HTML401);
             }
@@ -68,12 +62,7 @@ class Book extends RootModel
      */
     public function fields()
     {
-        return ['uuid',
-            'category' => function ($model) {
-                return $model->category;
-            },
-            'title', 'author', 'imageUrl', 'description', 'categoryUuid', 'link', 'imageUrl', 'amazonImage'
-        ];
+        return ['uuid', 'title', 'imageUrl', 'description', 'imageUrl'];
     }
 
     /**
@@ -85,9 +74,7 @@ class Book extends RootModel
             '_id' => Yii::t('app', '№'),
             'uuid' => Yii::t('app', 'Uuid'),
             'title' => Yii::t('app', 'Title'),
-            'author' => Yii::t('app', 'Author'),
             'description' => Yii::t('app', 'Description'),
-            'category' => Yii::t('app', 'Category'),
             'imageUrl' => Yii::t('app', 'Image'),
             'createdAt' => Yii::t('app', 'Created'),
             'changedAt' => Yii::t('app', 'Changed'),
@@ -97,10 +84,10 @@ class Book extends RootModel
     /**
      * @return ActiveQuery
      */
-    public function getCategory()
+    public function getAuthor()
     {
         return $this->hasOne(
-            Category::class, ['uuid' => 'categoryUuid']
+            Author::class, ['uuid' => 'authorUuid']
         );
     }
 }

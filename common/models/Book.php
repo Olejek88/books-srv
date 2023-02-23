@@ -13,6 +13,7 @@ use yii\db\Expression;
  * @property integer $_id
  * @property string $uuid
  * @property string $title
+ * @property string $link
  * @property string $author
  * @property string $description
  * @property string $categoryUuid
@@ -51,7 +52,7 @@ class Book extends RootModel
         return [
             [['uuid', 'title', 'author', 'description', 'categoryUuid', 'link'], 'required'],
             [['createdAt', 'changedAt'], 'safe'],
-            [['uuid', 'categoryUuid', 'image'], 'string', 'max' => 50],
+            [['uuid', 'categoryUuid', 'imageUrl'], 'string', 'max' => 150],
             [['title', 'author', 'imageUrl', 'amazonImage', 'link'], 'string', 'max' => 500],
             [['uuid', 'title'], 'filter', 'filter' => function ($param) {
                 return htmlspecialchars($param, ENT_QUOTES | ENT_HTML401);
@@ -85,7 +86,7 @@ class Book extends RootModel
             'author' => Yii::t('app', 'Author'),
             'description' => Yii::t('app', 'Description'),
             'category' => Yii::t('app', 'Category'),
-            'image' => Yii::t('app', 'Image'),
+            'imageUrl' => Yii::t('app', 'Image'),
             'createdAt' => Yii::t('app', 'Created'),
             'changedAt' => Yii::t('app', 'Changed'),
         ];

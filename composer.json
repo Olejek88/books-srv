@@ -13,7 +13,8 @@
     "yiisoft/yii2-bootstrap": "~2.0.2",
     "dmstr/yii2-adminlte-asset": "^2.5",
     "yii2-websocket-client/yii2-websocket-client": "^1.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-curl": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

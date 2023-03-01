@@ -31,10 +31,8 @@ class BookController extends ActiveController
         $behaviors['corsFilter'] = [
             'class' => Cors::className(),
             'cors' => [
-                'Origin' => ['*'],
                 'Access-Control-Request-Method' => $_verbs,
                 'Access-Control-Allow-Headers' => ['content-type'],
-                'Access-Control-Request-Headers' => ['*'],
             ]];
         return $behaviors;
     }
@@ -80,6 +78,10 @@ class BookController extends ActiveController
         $categoryUuid = $req->getQueryParam('category');
         if ($categoryUuid != null) {
             $query->andWhere(['categoryUuid' => $categoryUuid]);
+        }
+        $authorUUID = $req->getQueryParam('id');
+        if ($authorUUID != null) {
+            $query->andWhere(['authorUUID' => $authorUUID]);
         }
         $result = $query->all();
         return $result;

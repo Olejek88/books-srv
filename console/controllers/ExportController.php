@@ -27,8 +27,8 @@ class ExportController extends Controller
         //echo '<pre>';
         //print_r($lines);
         //echo '</pre>';
-        //for ($index=0;$index<count($lines); $index++) {
-        for ($index = 1; $index < 2; $index++) {
+        for ($index = 1; $index < count($lines); $index++) {
+            //for ($index = 1; $index < 2; $index++) {
             $link = $lines[$index][12];
             $title = $lines[$index][18];
             $img = $lines[$index][19];
@@ -36,8 +36,8 @@ class ExportController extends Controller
                 echo "[$index]" . $lines[$index][12] . " " . $lines[$index][18] . " " . $lines[$index][19] . PHP_EOL;
                 if (!stristr($title, "Gesponserte Anzeige")) {
                     $description = $this->getCompletion($title);
-                    echo "store: $description";
-                    $this->storeBook($title, $description, $img, $link);
+                    echo "store" . PHP_EOL;
+                    $this->storeBook($title, $description, $img, $link, "52e522ac-02b4-4b74-98a8-83b29c08b30f");
                 }
             }
         }
@@ -55,7 +55,7 @@ class ExportController extends Controller
     public function getCompletion($bookName)
     {
         $getOpenAITemperature = 0.5;
-        $maxTokens = 100;
+        $maxTokens = 500;
         $gettop_p = 1;
         $OPENAI_API_KEY = "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";
         $getOpenAIModel = "text-davinci-003";
@@ -100,15 +100,16 @@ class ExportController extends Controller
         try {
             //&linkCode=li2&tag=shtrmvk89-21&ref_=as_li_ss_i
             $book->uuid = MainFunctions::GUID();
-            $book->author = "Stephen King";
+            $book->authorName = "Brandon Sanderson";
+            $book->authorUuid = "4fd19231-b9eb-4046-9b41-2103d883514b";
             $book->description = $description;
             $book->title = $title;
             $book->imageUrl = $img;
             $book->categoryUuid = "c5515e76-41be-4ac3-bb02-1d34e4f7fc10";
-            $book->link = "$link&linkCode=li2&tag=shtrmvk89-21&ref_=as_li_ss_i";
-            $book->save();
-            echo "book saved";
+            $book->link = "$link?linkCode=li2&tag=shtrmvk89-21&ref_=as_li_ss_i";
+            $book->save(false);
         } catch (\Exception $e) {
+            echo "Error";
             echo $e;
         }
     }

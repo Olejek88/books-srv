@@ -52,9 +52,9 @@ class Book extends RootModel
     public function rules()
     {
         return [
-            [['uuid', 'title', 'author', 'description', 'categoryUuid', 'link'], 'required'],
+            [['uuid', 'title', 'author', 'authorUuid', 'description', 'categoryUuid', 'link'], 'required'],
             [['createdAt', 'changedAt'], 'safe'],
-            [['uuid', 'categoryUuid', 'imageUrl'], 'string', 'max' => 150],
+            [['uuid', 'categoryUuid', 'authorName', 'authorUuid', 'imageUrl'], 'string', 'max' => 150],
             [['title', 'author', 'imageUrl', 'amazonImage', 'link'], 'string', 'max' => 500],
             [['uuid', 'title'], 'filter', 'filter' => function ($param) {
                 return htmlspecialchars($param, ENT_QUOTES | ENT_HTML401);
@@ -72,7 +72,8 @@ class Book extends RootModel
             'category' => function ($model) {
                 return $model->category;
             },
-            'title', 'author', 'imageUrl', 'description', 'categoryUuid', 'link', 'imageUrl', 'amazonImage'
+            'title', 'author', 'authorName', 'authorUuid',
+            'imageUrl', 'description', 'categoryUuid', 'link', 'imageUrl', 'amazonImage'
         ];
     }
 
@@ -101,6 +102,16 @@ class Book extends RootModel
     {
         return $this->hasOne(
             Category::class, ['uuid' => 'categoryUuid']
+        );
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(
+            Author::class, ['uuid' => 'authorUuid']
         );
     }
 }

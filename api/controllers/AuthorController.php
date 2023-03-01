@@ -32,10 +32,8 @@ class AuthorController extends ActiveController
         $behaviors['corsFilter'] = [
             'class' => Cors::className(),
             'cors' => [
-                'Origin' => ['*'],
                 'Access-Control-Request-Method' => $_verbs,
                 'Access-Control-Allow-Headers' => ['content-type'],
-                'Access-Control-Request-Headers' => ['*'],
             ]];
         return $behaviors;
     }
@@ -80,5 +78,4 @@ class AuthorController extends ActiveController
         $result = $query->all();
         return $result;
     }
-
 }

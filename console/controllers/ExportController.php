@@ -57,7 +57,6 @@ class ExportController extends Controller
         $getOpenAITemperature = 0.5;
         $maxTokens = 500;
         $gettop_p = 1;
-        $OPENAI_API_KEY = "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";
         $getOpenAIModel = "text-davinci-003";
         $getRequest = "Erzähl mir bitte die Geschichte des Buches: $bookName";
         $ch = curl_init();
